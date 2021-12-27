@@ -1,17 +1,6 @@
-const a = 5;
-const b = 2;
-
-let myName = "nico";
-
-console.log(a + b);
-console.log(a * b);
-console.log(a / b);
-console.log("hello " + myName);
-
-myName = "nicolas";
-console.log("hello " + myName);
-
-const myName = "nico";
-myName = "nicolas"
-
-console.log("hello " + myName);
+let amIFat;
+console.log(amIFat); // undefined
+amIFat = false;
+console.log(amIFat); //false
+amIFat = null;
+console.log(amIFat); //null
