@@ -1,15 +1,11 @@
-//function이 없을 때
-console.log('Hello my name is Nico'); //Hello my name is Nico
-console.log('Hello my name is Dal'); //Hello my name is Dal
-console.log('Hello my name is Shigatsu'); //Hello my name is Shigatsu
-console.log('Hello my name is Flynn'); //Hello my name is Flynn
+const age = 20;
 
-//function이 있을 때
-function sayHello(name, age) {
-	console.log('Hello my name is ' + name + 'and im ' + age);
+//한국나이를 계산하는 함수
+//return -> 결과를 받고 싶다.
+function calculateKrAge(ageOfForeigner) {
+	return ageOfForeigner + 2;
 }
 
-//function실행
-sayHello('Nico', 10); //Hello my name is Nicoand im 10
-sayHello('Dal', 10); //Hello my name is Daland im 10
-sayHello('Shigatsu', 20); //Hello my name is Shigatsuand im 20
+const krAge = calculateKrAge(age); //return값이 온다.
+
+console.log(krAge); //22
