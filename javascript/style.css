@@ -1,3 +1,16 @@
-body{
-   background-color: beige;
+body {
+	background-color: beige;
+}
+
+h1 {
+	color: cornflowerblue;
+	transition: color 0.4s ease-in-out;
+}
+
+/*이 class를 가지면 토마토색으로 변한다.*/
+.active {
+	color: tomato;
+}
+.font {
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
