@@ -8,13 +8,17 @@
 		<title>Momentum</title>
 	</head>
 	<body>
-		<div class="hello">
-			<h1 class="font">Click me</h1>
-		</div>
-		<div class="hello">
-			<h1>Grab me</h1>
-		</div>
-
+		<form id="login-form" class="hidden">
+			<input
+				required
+				maxlength="15"
+				type="text"
+				placeholder="이름을 입력해주세요"
+			/>
+			<!--form -> button : submit -->
+			<input type="submit" value="Log in"></input>
+		</form>
+		<h1 id="greeting" class="hidden"></h1>
 		<script src="script.js"></script>
 	</body>
 </html>

@@ -1,24 +1,25 @@
-import './App.css';
+import React, { Component } from 'react';
+
+//새로 생성한 파일들을 import해옴.
 import TOC from './components/TOC';
 import Content from './components/Content';
 import Subject from './components/Subject';
-import React, { Component } from 'react';
 
-//react가 가진 Component 클래스를 상속받은 App
-//render 메소드를 가지고 있다.
+import './App.css';
+
 class App extends Component {
 	render() {
 		return (
-			<div classNme="App">
-				<Subject title="React" sub="For UI"></Subject>
-				<Subject title="WEB" sub="word wide web"></Subject>
+			<div className="App">
+				<Subject title="WEB" sub="world wide web!"></Subject>
 				<TOC></TOC>
 				<Content
-					desc="HTML is HyperText Markup Language."
 					title="HTML"
+					desc="HTML is HyperText Markup Language."
 				></Content>
 			</div>
 		);
 	}
 }
+
 export default App;
