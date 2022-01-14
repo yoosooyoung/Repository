@@ -15,11 +15,13 @@ class App extends Component {
 		super(props);
 		this.state = {
 			mode: 'read',
+			//기본적으로 2번 선택
+			selected_content_id: 2,
 			welcome: { title: 'Welcome', desc: 'Hello, React!!' },
 			subject: { title: 'WEB', sub: 'World wide web!' },
 			contents: [
 				{ id: 1, title: 'HTML', desc: 'HTML is HyperText' },
-				{ id: 2, title: 'CSS', desc: 'CSS is Design' },
+				{ id: 2, title: 'CSS', desc: 'CSS is for Design' },
 				{ id: 3, title: 'JavaScript', desc: 'JavaScript is interactive' },
 			],
 		};
@@ -32,8 +34,16 @@ class App extends Component {
 			_title = this.state.welcome.title;
 			_desc = this.state.welcome.desc;
 		} else if (this.state.mode === 'read') {
-			_title = this.state.contents[0].title;
-			_desc = this.state.contents[0].desc;
+			var i = 0;
+			while (i < this.state.contents.length) {
+				var data = this.state.contents[i];
+				if (data.id === this.state.selected_content_id) {
+					_title = data.title;
+					_desc = data.desc;
+					break;
+				}
+				i = i + 1;
+			}
 		}
 		//state가 받는다.
 		return (
@@ -60,7 +70,16 @@ class App extends Component {
 					</h1>
 					{this.state.subject.sub}
 				</header>
-				<TOC data={this.state.contents}></TOC>
+				<TOC
+					onChangePage={function (id) {
+						//문자 -> 숫자
+						this.setState({
+							mode: 'read',
+							selected_content_id: Number(id),
+						});
+					}.bind(this)}
+					data={this.state.contents}
+				></TOC>
 				<Content title={_title} desc={_desc}></Content>
 			</div>
 		);
