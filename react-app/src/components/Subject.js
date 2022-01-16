@@ -7,7 +7,16 @@ class Subject extends Component {
 		return (
 			<header>
 				<h1>
-					<a href="/">{this.props.title}</a>
+					<a
+						href="/"
+						onClick={function (e) {
+							//넘겨온 인자를 받아서 a태그를 막음
+							e.preventDefault();
+							this.props.onChangePage();
+						}.bind(this)}
+					>
+						{this.props.title}
+					</a>
 				</h1>
 				{this.props.sub}
 			</header>

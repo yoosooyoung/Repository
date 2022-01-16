@@ -48,28 +48,15 @@ class App extends Component {
 		//state가 받는다.
 		return (
 			<div className="App">
-				{/* <Subject
+				<Subject
 					title={this.state.subject.title}
 					sub={this.state.subject.sub}
-				></Subject> */}
-				<header>
-					<h1>
-						<a
-							href="/"
-							onClick={function (e) {
-								e.preventDefault();
-								//개발자도구(멈춤)-debugger;
-								//state값이 바뀌면 setState로 해야한다.
-								this.setState({
-									mode: 'Welcome',
-								});
-							}.bind(this)} //bind를 해야 this를 사용할 수 있다. 객체를 함수 안으로 주입해서 this를 사용하게 한다.
-						>
-							{this.state.subject.title}
-						</a>
-					</h1>
-					{this.state.subject.sub}
-				</header>
+					//이벤트에 함수를 설치하면 이벤트가 발생되었을 때
+					//프롭스로 전달된 onchangepage로 전달된 함수를 호출한다
+					onChangePage={function () {
+						this.setState({ mode: 'Welcome' });
+					}.bind(this)}
+				></Subject>
 				<TOC
 					onChangePage={function (id) {
 						//문자 -> 숫자

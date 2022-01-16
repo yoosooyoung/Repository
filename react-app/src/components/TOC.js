@@ -7,8 +7,6 @@ class TOC extends Component {
 		var i = 0;
 		while (i < data.length) {
 			lists.push(
-				//Each child in a list should have a unique
-				//여려개의 목록을 자동으로 생성할 때는 react는 key값을 요구한다.
 				<li key={data[i].id}>
 					<a
 						href={'/content/' + data[i].id}
