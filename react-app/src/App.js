@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import TOC from './components/TOC';
 import Content from './components/Content';
 import Subject from './components/Subject';
+import Control from './components/Control';
 
 import './App.css';
 
@@ -57,6 +58,13 @@ class App extends Component {
 						this.setState({ mode: 'Welcome' });
 					}.bind(this)}
 				></Subject>
+				<Control
+					onChangeMode={function (_mode) {
+						this.setState({
+							mode: _mode,
+						});
+					}.bind(this)}
+				></Control>
 				<TOC
 					onChangePage={function (id) {
 						//문자 -> 숫자
