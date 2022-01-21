@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 
 //새로 생성한 파일들을 import해옴.
 import TOC from './components/TOC';
-import Content from './components/Content';
+import ReadContent from './components/ReadContent';
 import Subject from './components/Subject';
 import Control from './components/Control';
 
 import './App.css';
+import CreateContent from './components/CreateContent';
 
 //컴포넌트가 실행될 때
 class App extends Component {
@@ -14,8 +15,9 @@ class App extends Component {
 	constructor(props) {
 		//props 초기화
 		super(props);
+		this.max_content_id = 3;
 		this.state = {
-			mode: 'read',
+			mode: 'create',
 			//기본적으로 2번 선택
 			selected_content_id: 2,
 			welcome: { title: 'Welcome', desc: 'Hello, React!!' },
@@ -30,10 +32,12 @@ class App extends Component {
 	//state가 바뀌면 render함수가 호출된다 -> 화면이 다시 그려진다.
 	render() {
 		var _title,
+			_article,
 			_desc = null;
 		if (this.state.mode === 'Welcome') {
 			_title = this.state.welcome.title;
 			_desc = this.state.welcome.desc;
+			_article = <ReadContent title={_title} desc={_desc}></ReadContent>;
 		} else if (this.state.mode === 'read') {
 			var i = 0;
 			while (i < this.state.contents.length) {
@@ -45,6 +49,39 @@ class App extends Component {
 				}
 				i = i + 1;
 			}
+			_article = <ReadContent title={_title} desc={_desc}></ReadContent>;
+			//mode가 create면 aricle이 담긴 conponent를 호출한다.
+		} else if (this.state.mode === 'create') {
+			_article = (
+				<CreateContent
+					onSubmit={function (_title, _desc) {
+						this.max_content_id = this.max_content_id + 1;
+						// 원본을 바꿈
+						// this.state.contents.push({
+						// 	id: this.max_content_id,
+						// 	title: _title,
+						// 	desc: _desc,
+						// });
+
+						// 원본데이터를 바꾸지않고 데이터를 갱신함
+						// var _contents = this.state.contents.concat({
+						// 	id: this.max_content_id,
+						// 	title: _title,
+						// 	desc: _desc,
+						// });
+						//배열을 복제함 , 객체는 Object.assign => immutable과 같음
+						var newContents = Array.from(this.state.contents);
+						newContents.push({
+							id: this.max_content_id,
+							title: _title,
+							desc: _desc,
+						});
+						//state값이 변경되었으니 다시 랜더링이 된다.
+						//-> shouldComponentUpdate 을쓰면 랜더링안됨
+						this.setState({ contents: newContents });
+					}.bind(this)}
+				></CreateContent>
+			);
 		}
 		//state가 받는다.
 		return (
@@ -75,7 +112,7 @@ class App extends Component {
 					}.bind(this)}
 					data={this.state.contents}
 				></TOC>
-				<Content title={_title} desc={_desc}></Content>
+				{_article}
 			</div>
 		);
 	}
