@@ -8,6 +8,7 @@ import Control from './components/Control';
 
 import './App.css';
 import CreateContent from './components/CreateContent';
+import UpdateContent from './components/UpdateContent';
 
 //컴포넌트가 실행될 때
 class App extends Component {
@@ -17,7 +18,7 @@ class App extends Component {
 		super(props);
 		this.max_content_id = 3;
 		this.state = {
-			mode: 'create',
+			mode: 'welcome',
 			//기본적으로 2번 선택
 			selected_content_id: 2,
 			welcome: { title: 'Welcome', desc: 'Hello, React!!' },
@@ -29,8 +30,18 @@ class App extends Component {
 			],
 		};
 	}
-	//state가 바뀌면 render함수가 호출된다 -> 화면이 다시 그려진다.
-	render() {
+	getReadContent() {
+		var i = 0;
+		while (i < this.state.contents.length) {
+			var data = this.state.contents[i];
+			if (data.id === this.state.selected_content_id) {
+				return data;
+				break;
+			}
+			i = i + 1;
+		}
+	}
+	getContent() {
 		var _title,
 			_article,
 			_desc = null;
@@ -39,72 +50,98 @@ class App extends Component {
 			_desc = this.state.welcome.desc;
 			_article = <ReadContent title={_title} desc={_desc}></ReadContent>;
 		} else if (this.state.mode === 'read') {
-			var i = 0;
-			while (i < this.state.contents.length) {
-				var data = this.state.contents[i];
-				if (data.id === this.state.selected_content_id) {
-					_title = data.title;
-					_desc = data.desc;
-					break;
-				}
-				i = i + 1;
-			}
-			_article = <ReadContent title={_title} desc={_desc}></ReadContent>;
+			var _content = this.getReadContent();
+			_article = (
+				<ReadContent
+					title={_content.title}
+					desc={_content.desc}
+				></ReadContent>
+			);
 			//mode가 create면 aricle이 담긴 conponent를 호출한다.
 		} else if (this.state.mode === 'create') {
 			_article = (
 				<CreateContent
 					onSubmit={function (_title, _desc) {
 						this.max_content_id = this.max_content_id + 1;
-						// 원본을 바꿈
-						// this.state.contents.push({
-						// 	id: this.max_content_id,
-						// 	title: _title,
-						// 	desc: _desc,
-						// });
-
-						// 원본데이터를 바꾸지않고 데이터를 갱신함
-						// var _contents = this.state.contents.concat({
-						// 	id: this.max_content_id,
-						// 	title: _title,
-						// 	desc: _desc,
-						// });
-						//배열을 복제함 , 객체는 Object.assign => immutable과 같음
 						var newContents = Array.from(this.state.contents);
 						newContents.push({
 							id: this.max_content_id,
 							title: _title,
 							desc: _desc,
 						});
-						//state값이 변경되었으니 다시 랜더링이 된다.
-						//-> shouldComponentUpdate 을쓰면 랜더링안됨
-						this.setState({ contents: newContents });
+						this.setState({
+							contents: newContents,
+							mode: 'read',
+							selected_content_id: this.max_content_id,
+						});
 					}.bind(this)}
 				></CreateContent>
 			);
+		} else if (this.state.mode === 'update') {
+			_content = this.getReadContent();
+			_article = (
+				<UpdateContent
+					data={_content}
+					onSubmit={function (_id, _title, _desc) {
+						//contents를 복사한 새로운 배열
+						var _contents = Array.from(this.state.contents);
+						var i = 0;
+						while (i < _contents.length) {
+							if (_contents[i].id === _id) {
+								_contents[i] = { id: _id, title: _title, desc: _desc };
+								break;
+							}
+							i = i + 1;
+						}
+						this.setState({ contents: _contents, mode: 'read' });
+					}.bind(this)}
+				></UpdateContent>
+			);
 		}
-		//state가 받는다.
+		return _article;
+	}
+	//state가 바뀌면 render함수가 호출된다 -> 화면이 다시 그려진다.
+	render() {
 		return (
 			<div className="App">
 				<Subject
 					title={this.state.subject.title}
 					sub={this.state.subject.sub}
-					//이벤트에 함수를 설치하면 이벤트가 발생되었을 때
-					//프롭스로 전달된 onchangepage로 전달된 함수를 호출한다
 					onChangePage={function () {
 						this.setState({ mode: 'Welcome' });
 					}.bind(this)}
 				></Subject>
 				<Control
 					onChangeMode={function (_mode) {
-						this.setState({
-							mode: _mode,
-						});
+						if (_mode === 'delete') {
+							if (window.confirm('삭제하시겠습니까?')) {
+								var _contents = Array.from(this.state.contents);
+								var i = 0;
+								while (i < _contents.length) {
+									if (
+										_contents[i].id === this.state.selected_content_id
+									) {
+										_contents.splice(i, 1);
+										break;
+									}
+
+									i = i + 1;
+								}
+								this.setState({
+									contents: _contents,
+									mode: 'welcome',
+								});
+								alert('deleted!');
+							}
+						} else {
+							this.setState({
+								mode: _mode,
+							});
+						}
 					}.bind(this)}
 				></Control>
 				<TOC
 					onChangePage={function (id) {
-						//문자 -> 숫자
 						this.setState({
 							mode: 'read',
 							selected_content_id: Number(id),
@@ -112,7 +149,7 @@ class App extends Component {
 					}.bind(this)}
 					data={this.state.contents}
 				></TOC>
-				{_article}
+				{this.getContent()}
 			</div>
 		);
 	}
