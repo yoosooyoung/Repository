@@ -124,7 +124,6 @@ class App extends Component {
 										_contents.splice(i, 1);
 										break;
 									}
-
 									i = i + 1;
 								}
 								this.setState({
