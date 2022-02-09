@@ -7,28 +7,22 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
    const root = document.getElementById("root")
-   function Title(){
-       return(
-        <h3 id="title" 
-        onMouseEnter={() => console.log("mouse enter")}>
-        Hello I`m a Title
-        </h3>
-      );
-   }
-   const Button = ()=>(
-      <button style={{backgroundColor:"tomato"}}
-       onClick={()=>console.log("im clicked")}>
-       Click me
-       </button>
-      );
-
-   const container =()=>(
+   function App(){
+      //[counter데이터를받아서 returndp 담고있다. 버튼을 클릭하면 setCounter호출, 새로운값을가지고 랜더링, counter+1
+      //초기값을 설정한다.
+      const [counter, setCounter] = React.useState(0);
+      const onClick = ()=>{
+         //새로운값으로 랜더링하고싶다.
+         setCounter(counter+1);
+      }
+      return(
       <div>
-      <Title/>
-      <Button/>  
+        <h3> Total clicks : {counter}</h3>
+        <button onClick={onClick}>Click me</button>  
       </div>
       )
+   }
 
-   ReactDOM.render(<container/>,root)
+      ReactDOM.render(<App/>, root)
 </script>
 </html>
