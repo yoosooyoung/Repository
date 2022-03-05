@@ -1,17 +1,56 @@
 <!DOCTYPE html>
-<body>
-   <button id="btn">Click me</button>
-   <span>Total clicks : 0</span>
-</body>
-<script>
-   let counter = 0;
-   const button = document.getElementById("btn")
-   const span = document.querySelector("span");
-   button.addEventListener("click",handleClick)
-   function handleClick(){
-      console.log("눌렀다.")
-      counter = counter + 1;
-      span.innerText = `Total clicks: ${counter}`;
-   }
-</script>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+
+	<script
+		src="https://unpkg.com/react@17.0.2/umd/react.development.js"
+		crossorigin
+	></script>
+	<script
+		src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+		crossorigin
+	></script>
+	<script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+	<!-- props type 추가 -->
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+	<script type="text/babel">
+		// 01. 컴포넌틑 정의
+		function Btn({ text, fontSize = 16 }) {
+			return (
+				<button
+					style={{
+						backgroundColor: 'tomato',
+						color: 'white',
+						padding: '10px 20px',
+						border: 0,
+						borderRadius: 10,
+						fontSize,
+					}}
+				>
+					{text}
+				</button>
+			);
+		}
+		// 01. Btn에서 사용된 props data type 정의
+		Btn.propTypes = {
+			//props의 type 정의
+			text: PropTypes.string.isRequired,
+			fontSize: PropTypes.number,
+		};
+
+		//03. 랜더, 정의된 tyep과 맞지 않으면 console 에 에러가 뜬다.
+		function App() {
+			return (
+				<div>
+					<Btn text="Save Changes" fontSize={18} />
+					<Btn text={14} />
+				</div>
+			);
+		}
+		const root = document.getElementById('root');
+		ReactDOM.render(<App />, root);
+	</script>
 </html>
