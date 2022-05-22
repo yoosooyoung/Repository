@@ -1,0 +1,15 @@
+* {
+	box-sizing: border-box;
+}
+
+.inner {
+	width: 100%;
+	max-width: 1200px;
+	margin: 50px auto;
+}
+
+.board_style {
+	height: 600px;
+	width: 100%;
+	resize: none;
+}
