@@ -13,3 +13,35 @@
 	width: 100%;
 	resize: none;
 }
+.li_style {
+	padding: 0;
+	border: 1px solid #ddd;
+	border-bottom: 0;
+}
+.li_style > li {
+	list-style: none;
+	display: flex;
+	border-bottom: 1px solid #ddd;
+}
+.li_style > li > div {
+	padding: 10px;
+	text-align: center;
+}
+.li_style > li > div:nth-child(1) {
+	width: 50px;
+}
+.li_style > li > div:nth-child(2) {
+	width: 100px;
+}
+.li_style > li > div:nth-child(3) {
+	width: 100%;
+	text-align: left;
+}
+
+.li_style > li > div:nth-child(4) {
+	width: 100px;
+}
+
+.li_style > li.empty > div {
+	width: 100%;
+}
