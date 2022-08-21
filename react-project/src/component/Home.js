@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import logo from './logo_img.png';
 
 function Home() {
 	const toList = window.localStorage.getItem('finallyList');
@@ -77,9 +78,23 @@ function Home() {
 		setCheckedLists([]);
 		setParsed(JSON.parse(window.localStorage.getItem('finallyList')));
 	};
+	const newSeq = (item, e) => {
+		var lastValue = JSON.parse(window.localStorage.getItem('finallyList'));
+		var key = '';
+		if (lastValue.length == 0) {
+			key = 0;
+		} else {
+			key = lastValue[0].key + 1;
+		}
+	};
+
 	return (
 		<div className="inner">
-			<h1>List</h1>
+			<Link to="/" className="logo">
+				<img src={logo} className="img_logo" />
+				My Board
+			</Link>
+			<h1>목록</h1>
 			<ul className="li_style">
 				<li>
 					<div>
@@ -97,6 +112,8 @@ function Home() {
 					</div>
 					<div>번호</div>
 					<div>제목</div>
+					<div>글 미리보기</div>
+					<div>작성시간</div>
 					<div>기능</div>
 				</li>
 			</ul>
@@ -116,8 +133,16 @@ function Home() {
 							</div>
 							<div>{item.key}</div>
 							<div>
-								<Link to={`view/` + item.key}>{item.value}</Link>
+								<Link to={`view/` + item.key}>{item.title}</Link>
 							</div>
+							<div title={item.value}>
+								<Link to={`view/` + item.key}>
+									{item.value.length > 10
+										? item.value.substring(0, 10) + ' ...더보기'
+										: item.value}
+								</Link>
+							</div>
+							<div>{item.time}</div>
 							<div>
 								<button
 									onClick={(e) => {
@@ -136,7 +161,7 @@ function Home() {
 				)}
 			</ul>
 			<form>
-				<button>
+				<button onClick={newSeq}>
 					<Link to={`write`}>글쓰기</Link>
 				</button>
 				<button onClick={delList}>삭제</button>

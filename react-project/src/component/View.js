@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 //글번호를 받기 위해 가져온다.
 import { useParams } from 'react-router-dom';
+import logo from './logo_img.png';
 
 function View() {
 	//글번호를 받아오기 위해 useParams를 사용
@@ -16,13 +17,16 @@ function View() {
 	);
 	//newArray의 첫번째는 내가 가져온 글이다.
 	const [toBoard, setToDo] = useState(newArray[0].value);
+	const [toTitle, setToTitle] = useState(newArray[0].title);
+	const [toTime, setToTime] = useState(newArray[0].time);
 	//수정할 글을 가져온다. toBoard에 세팅한다.
 	const onChange = (event) => setToDo(event.target.value);
+	const onTitleChange = (event) => setToTitle(event.target.value);
 	//수정버튼을 누르면 발생하는 이벤트
 	const onSubmit = (event) => {
 		event.preventDefault();
 		if (toBoard === '') {
-			alert('글을 써주세요.');
+			alert('글을 작성해주세요.');
 			return;
 		}
 		//내가 지금 쓰는 글을 제외한 다른 글들을 newArray에 넣는다.
@@ -32,7 +36,11 @@ function View() {
 		//스토리지에 있는 글을 전부지운다.
 		localStorage.removeItem('finallyList');
 		//내가 수정하고 있는 글을 Object형식으로 만든다.
-		const userInput = { value: toBoard, key: Number(params.seq) };
+		const userInput = {
+			value: toBoard,
+			key: Number(params.seq),
+			title: toTitle,
+		};
 		//새로운 글을 기존글배열에 넣는다.
 		newArray.push(userInput);
 		//정렬을 하기위해 변수를만든다.
@@ -42,22 +50,24 @@ function View() {
 		//정렬한 배열을 스토리지에 넣는다.
 		localStorage.setItem('finallyList', JSON.stringify(result));
 		//링크를 이동한다.
-		window.location.href = 'http://localhost:3000/';
+		window.location.href = '/';
 	};
 
 	return (
 		<div className="inner">
-			<h1>뷰페이지</h1>
+			<Link to="/" className="logo">
+				<img src={logo} className="img_logo" />
+				My Board
+			</Link>
 			<form>
-				<h1>
-					<textarea
-						value={toBoard}
-						onChange={onChange}
-						type="text"
-						className="board_style"
-					></textarea>
-				</h1>
-				<button onClick={onSubmit}>수정</button>
+				<h3>제목</h3>
+				<div className="title_style">{toTitle}</div>
+				작성한 시간: <span>{toTime}</span>
+				<h3>내용</h3>
+				<div className="board_style">{toBoard}</div>
+				<button>
+					<Link to={`/write/` + Number(params.seq)}>수정</Link>
+				</button>
 				<button>
 					<Link to={`/`}>목록</Link>
 				</button>
