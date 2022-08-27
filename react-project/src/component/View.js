@@ -65,12 +65,14 @@ function View() {
 				작성한 시간: <span>{toTime}</span>
 				<h3>내용</h3>
 				<div className="board_style">{toBoard}</div>
-				<button>
-					<Link to={`/write/` + Number(params.seq)}>수정</Link>
-				</button>
-				<button>
-					<Link to={`/`}>목록</Link>
-				</button>
+				<div className="btn_wrap">
+					<button>
+						<Link to={`/write/` + Number(params.seq)}>수정</Link>
+					</button>
+					<button>
+						<Link to={`/`}>목록</Link>
+					</button>
+				</div>
 			</form>
 		</div>
 	);

@@ -112,7 +112,6 @@ function Home() {
 					</div>
 					<div>번호</div>
 					<div>제목</div>
-					<div>글 미리보기</div>
 					<div>작성시간</div>
 					<div>기능</div>
 				</li>
@@ -133,13 +132,13 @@ function Home() {
 							</div>
 							<div>{item.key}</div>
 							<div>
-								<Link to={`view/` + item.key}>{item.title}</Link>
-							</div>
-							<div title={item.value}>
 								<Link to={`view/` + item.key}>
-									{item.value.length > 10
-										? item.value.substring(0, 10) + ' ...더보기'
-										: item.value}
+									<div className="title">{item.title}</div>
+									<div className="text">
+										{item.value.length > 10
+											? item.value.substring(0, 10) + ' ...더보기'
+											: item.value}
+									</div>
 								</Link>
 							</div>
 							<div>{item.time}</div>
@@ -160,12 +159,12 @@ function Home() {
 					</li>
 				)}
 			</ul>
-			<form>
+			<div className="btn_wrap">
 				<button onClick={newSeq}>
 					<Link to={`write`}>글쓰기</Link>
 				</button>
 				<button onClick={delList}>삭제</button>
-			</form>
+			</div>
 		</div>
 	);
 }

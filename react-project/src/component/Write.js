@@ -113,10 +113,12 @@ function Writer() {
 					onChange={onChange}
 					type="text"
 				></textarea>
-				<button onClick={onSubmit}>확인</button>
-				<button>
-					<Link to={`/`}>목록</Link>
-				</button>
+				<div className="btn_wrap">
+					<button onClick={onSubmit}>확인</button>
+					<button>
+						<Link to={`/`}>목록</Link>
+					</button>
+				</div>
 			</form>
 		</div>
 	);
